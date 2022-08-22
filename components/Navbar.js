@@ -1,8 +1,16 @@
-import React from "react";
+import React, {useState} from "react";
 import styles from "../styles/Home.module.css";
 import Link from "next/link";
+import  CloseIcon from '@mui/icons-material/Close'
+import { Sidebar } from "./Sidebar";
 
 const Navbar = () => {
+
+    const [sidebar, setSidebar] = useState(false)
+
+    const showSidebar = () => setSidebar(!sidebar)
+
+
   return (
     <nav className={styles.navbar}>
       <Link href="/">
@@ -41,14 +49,26 @@ const Navbar = () => {
         <li className={styles.items}>
           <a className={styles.itemLink} href="#">Account</a>
         </li>
-        <li className={styles.items}>
-          <a className={styles.itemLink} href="#">Menu</a>
+        <li className={styles.items} onClick={showSidebar} >
+             Menu
         </li>
       </div>
 
-      <div>
-          <ul>
-            
+      <div className={sidebar ? 'side-menu active' : 'side-menu'}>
+
+        <CloseIcon onClick={showSidebar} className='close-icon' />
+          <ul className="sidebarNav">
+            {
+              Sidebar.map((item, index) => {
+                return(
+                  <li key={index} className="sidebar-item" >
+                    <Link className="sidebar-link" href={item.path}>
+                        <a>{item.title}</a>
+                    </Link>
+                  </li>
+                )
+              })
+            }
           </ul>
       </div>
 
